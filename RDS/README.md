@@ -41,7 +41,29 @@ Install-ADDSForest `
 -Force:$true
 ```
 
+## Create Group and Add Users
+
+```
+New-ADGroup -Name RDS-Users -GroupScope DomainLocal -GroupCategory Security
+$password = 'Password1' | ConvertTo-SecureString -AsPlainText -Force
+$username = 'rds-user'
+$users = 1..4
+foreach ($user in $users) {
+    Write-Host "Creating User: '$($username)$($user)'"
+    New-ADUser -Name "$($username)$($user)" -GivenName "$($username)$($user)" -Surname "$($username)$($user)" -SamAccountName "$($username)$($user)" -UserPrincipalName "$($username)$($user)" -AccountPassword $password -Enabled $true
+    Add-ADGroupMember -Identity RDS-Users -Members "$($username)$($user)"
+}
+```
+
 # Member Servers
+
+## Enable RDP
+
+```powershell
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
+Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+```
 
 ## Change DNS of a Network Adaptor - Usually Ethernet0 in VMWare Workstation VMs
 
