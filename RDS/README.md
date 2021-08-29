@@ -62,7 +62,6 @@ foreach ($user in $users) {
 ```powershell
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-
 ```
 
 ## Change DNS of a Network Adaptor - Usually Ethernet0 in VMWare Workstation VMs
@@ -80,5 +79,4 @@ Set-DnsClientServerAddress -InterfaceIndex $nic.InterfaceIndex -ServerAddresses 
 ```powershell
 $machineName = 'RDS-NewMachine'
 Rename-Computer -NewName $machineName -DomainCredential rds.local\administrator -Restart
-nCredential rds.local\administrator -Restart
 ```
